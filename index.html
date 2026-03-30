@@ -19,7 +19,41 @@
             --text-main: #1a1a1a;
         }
 
-        body.dark-mode {
+        /* --- TEMI ESCLUSIVI PRO --- */
+        body.theme-gold {
+            --bg: #1a1a1a;
+            --black: #d4af37;
+            --accent: #d4af37;
+            --secondary: #aa8418;
+            --brand-yellow: #d4af37;
+            --light-blue: #2a2a2a;
+            --card-bg: #222;
+            --text-main: #fff;
+        }
+
+        body.theme-neon {
+            --bg: #000000;
+            --black: #bc13fe;
+            --accent: #bc13fe;
+            --secondary: #39ff14;
+            --brand-yellow: #bc13fe;
+            --light-blue: #1a1a1a;
+            --card-bg: #111;
+            --text-main: #fff;
+        }
+
+        body.theme-deep {
+            --bg: #000000;
+            --black: #ffffff;
+            --accent: #333;
+            --secondary: #222;
+            --brand-yellow: #444;
+            --light-blue: #111;
+            --card-bg: #0a0a0a;
+            --text-main: #ffffff;
+        }
+
+        body.dark-mode:not(.theme-gold):not(.theme-neon):not(.theme-deep) {
             --bg: #121212;
             --black: #ffffff;
             --card-bg: #1e1e1e;
@@ -27,7 +61,64 @@
             --light-blue: #2a4d44;
         }
 
-        /* --- STILE NUVOLETTA (WELCOME TOAST) --- */
+        /* --- STILE ACCOUNT NELLE IMPOSTAZIONI --- */
+        .profile-settings-card {
+            border: 3px solid var(--black);
+            border-radius: 20px;
+            padding: 20px;
+            background: var(--light-blue);
+            box-shadow: 4px 4px 0px var(--black);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        #settings-panel {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 2000;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: contain;
+        }
+        #settings-panel.open { transform: translateX(0); }
+
+        #settings-panel::-webkit-scrollbar { width: 6px; }
+        #settings-panel::-webkit-scrollbar-thumb { background: var(--black); border-radius: 10px; }
+
+        .pro-locked { opacity: 0.5; pointer-events: none; position: relative; }
+        .pro-locked::after {
+            content: "🔒 PRO";
+            position: absolute;
+            right: 15px;
+            font-size: 10px;
+            background: var(--black);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-weight: 900;
+        }
+        body.is-pro .pro-locked { opacity: 1; pointer-events: auto; }
+        body.is-pro .pro-locked::after { display: none; }
+
+        .premium-input {
+            width: 100%;
+            padding: 12px;
+            border: 3px solid var(--black);
+            border-radius: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 10px;
+            background: var(--bg);
+            color: var(--text-main);
+        }
+
         #welcome-toast {
             position: fixed;
             top: -100px;
@@ -38,7 +129,7 @@
             padding: 12px 25px;
             border-radius: 20px;
             box-shadow: 5px 5px 0px var(--black);
-            z-index: 2000;
+            z-index: 3000;
             font-weight: 900;
             display: flex;
             align-items: center;
@@ -48,7 +139,6 @@
         }
         #welcome-toast.show { top: 20px; }
 
-        /* Citazione del Giorno Style */
         .daily-quote-container {
             background: var(--light-blue);
             border: 3px solid var(--black);
@@ -59,30 +149,10 @@
             position: relative;
             overflow: hidden;
         }
-        .daily-quote-container i {
-            position: absolute;
-            right: 15px;
-            bottom: 10px;
-            opacity: 0.2;
-            font-size: 30px;
-        }
-        #quote-text {
-            font-weight: 800;
-            font-size: 14px;
-            line-height: 1.4;
-            color: var(--text-main);
-            font-style: italic;
-        }
-        #quote-author {
-            display: block;
-            margin-top: 8px;
-            font-size: 11px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .daily-quote-container i { position: absolute; right: 15px; bottom: 10px; opacity: 0.2; font-size: 30px; }
+        #quote-text { font-weight: 800; font-size: 14px; line-height: 1.4; color: var(--text-main); font-style: italic; }
+        #quote-author { display: block; margin-top: 8px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Badge Utente */
         .user-badge {
             background: var(--brand-yellow);
             color: #1a1a1a;
@@ -94,206 +164,61 @@
             vertical-align: middle;
             font-weight: 900;
             text-transform: uppercase;
-            display: inline-block;
+            display: none;
             line-height: 1;
         }
+        body.is-pro .user-badge { display: inline-block; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Outfit', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
 
-        body {
-            background-color: #e0e0e0;
-            display: flex;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
-            transition: background 0.3s ease;
-        }
+        body { background-color: #e0e0e0; display: flex; justify-content: center; height: 100vh; overflow: hidden; transition: background 0.3s ease; }
 
         .app-shell {
-            width: 100%;
-            max-width: 450px;
-            height: 100%;
-            background: var(--bg);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            border-left: 4px solid var(--black);
-            border-right: 4px solid var(--black);
-            overflow: hidden;
-            color: var(--text-main);
+            width: 100%; max-width: 450px; height: 100%; background: var(--bg);
+            position: relative; display: flex; flex-direction: column;
+            border-left: 4px solid var(--black); border-right: 4px solid var(--black);
+            overflow: hidden; color: var(--text-main);
         }
 
-        #settings-panel {
-            position: absolute;
-            inset: 0;
-            background: var(--bg);
-            z-index: 1100;
-            transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-        #settings-panel.open { transform: translateX(0); }
-
-        .settings-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
+        .settings-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
 
         .setting-item {
-            border: 3px solid var(--black);
-            padding: 18px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            background: var(--card-bg);
-            box-shadow: 5px 5px 0px var(--black);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 800;
+            border: 3px solid var(--black); padding: 18px; border-radius: 20px;
+            margin-bottom: 20px; background: var(--card-bg); box-shadow: 5px 5px 0px var(--black);
+            display: flex; justify-content: space-between; align-items: center; font-weight: 800;
         }
 
-        .setting-select {
-            border: 2px solid var(--black);
-            padding: 5px 10px;
-            border-radius: 10px;
-            font-weight: 800;
-            outline: none;
-            background: var(--bg);
-            color: var(--text-main);
-        }
+        .setting-select { border: 2px solid var(--black); padding: 5px 10px; border-radius: 10px; font-weight: 800; outline: none; background: var(--bg); color: var(--text-main); }
 
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 45px;
-            height: 24px;
-        }
+        .switch { position: relative; display: inline-block; width: 45px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute; cursor: pointer; inset: 0;
-            background-color: #ccc; border: 2px solid var(--black);
-            transition: .4s; border-radius: 34px;
-        }
-        .slider:before {
-            position: absolute; content: ""; height: 14px; width: 14px;
-            left: 3px; bottom: 3px; background-color: var(--black);
-            transition: .4s; border-radius: 50%;
-        }
+        .slider { position: absolute; cursor: pointer; inset: 0; background-color: #ccc; border: 2px solid var(--black); transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: var(--black); transition: .4s; border-radius: 50%; }
         input:checked + .slider { background-color: var(--secondary); }
         input:checked + .slider:before { transform: translateX(21px); }
 
-        #login-screen {
-            position: absolute;
-            inset: 0;
-            background: var(--brand-yellow);
-            z-index: 1200;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 30px;
-            transition: all 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        }
-
+        /* --- STILE LOGIN AGGIORNATO --- */
+        #login-screen { position: absolute; inset: 0; background: var(--brand-yellow); z-index: 1200; display: flex; flex-direction: column; justify-content: center; padding: 30px; transition: all 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
         .login-hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
-
-        .login-card {
-            background: white;
-            border: 4px solid #1a1a1a;
-            padding: 30px;
-            border-radius: 25px;
-            box-shadow: 10px 10px 0px #1a1a1a;
-            text-align: center;
-            color: #1a1a1a;
-        }
-
+        .login-card { background: white; border: 4px solid #1a1a1a; padding: 25px; border-radius: 25px; box-shadow: 10px 10px 0px #1a1a1a; text-align: center; color: #1a1a1a; }
         .login-card h1 { font-size: 38px; font-weight: 900; margin-bottom: 5px; }
-        .login-card p { margin-bottom: 25px; font-weight: 700; color: #555; }
+        .login-card p { margin-bottom: 20px; font-weight: 700; color: #555; }
 
-        input[type="text"] {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 3px solid var(--black);
-            border-radius: 12px;
-            font-weight: 700;
-            outline: none;
-            font-size: 16px;
-            background: var(--card-bg);
-            color: var(--text-main);
-        }
+        input[type="text"], input[type="email"], input[type="password"] { width: 100%; padding: 14px; margin-bottom: 12px; border: 3px solid var(--black); border-radius: 12px; font-weight: 700; outline: none; font-size: 14px; background: var(--card-bg); color: var(--text-main); }
 
-        .btn-enter {
-            width: 100%;
-            padding: 18px;
-            background: var(--black);
-            color: var(--bg);
-            border: none;
-            border-radius: 12px;
-            font-weight: 900;
-            font-size: 18px;
-            cursor: pointer;
-            box-shadow: 4px 4px 0px #666;
-            transition: 0.2s;
-        }
+        .btn-enter { width: 100%; padding: 18px; background: var(--black); color: var(--bg); border: none; border-radius: 12px; font-weight: 900; font-size: 18px; cursor: pointer; box-shadow: 4px 4px 0px #666; transition: 0.2s; }
 
-        .main-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
+        .main-content { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 10px;
-        }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 10px; }
 
-        .header-btn {
-            width: 50px; height: 50px;
-            border: 3px solid var(--black);
-            border-radius: 15px;
-            background: var(--light-blue);
-            display: flex; justify-content: center; align-items: center;
-            box-shadow: 4px 4px 0px var(--black);
-            cursor: pointer;
-            position: relative;
-        }
+        .header-btn { width: 50px; height: 50px; border: 3px solid var(--black); border-radius: 15px; background: var(--light-blue); display: flex; justify-content: center; align-items: center; box-shadow: 4px 4px 0px var(--black); cursor: pointer; position: relative; }
 
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff4757;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            border: 2px solid var(--black);
-            display: block;
-        }
+        .notification-badge { position: absolute; top: -5px; right: -5px; background: #ff4757; width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--black); display: block; }
 
         .brand-logo { font-weight: 900; font-size: 18px; text-transform: uppercase; flex: 1; text-align: center; }
 
-        .search-container {
-            display: flex; border: 3px solid var(--black);
-            border-radius: 18px; box-shadow: 0px 5px 0px var(--black);
-            margin-bottom: 25px; background: var(--card-bg);
-        }
-
+        .search-container { display: flex; border: 3px solid var(--black); border-radius: 18px; box-shadow: 0px 5px 0px var(--black); margin-bottom: 25px; background: var(--card-bg); }
         .search-container span { padding: 15px; border-right: 3px solid var(--black); background: rgba(0,0,0,0.05); }
         .search-container input { border: none; padding: 10px 15px; width: 100%; font-weight: 700; outline: none; margin-bottom: 0; }
 
@@ -307,78 +232,31 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .cards-grid { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
-        .music-card { flex: 1; min-width: 140px; background: var(--card-bg); border: 3px solid var(--black); border-radius: 20px; padding: 12px; box-shadow: 5px 5px 0px var(--black); position: relative; cursor: pointer; transition: 0.2s; }
+        .cards-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 15px; 
+            margin-bottom: 30px; 
+        }
+
+        .music-card { background: var(--card-bg); border: 3px solid var(--black); border-radius: 20px; padding: 12px; box-shadow: 5px 5px 0px var(--black); position: relative; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; }
         .music-card:active { transform: scale(0.95); }
         .card-img { width: 100%; aspect-ratio: 1; border: 2px solid var(--black); border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: center; align-items: center; font-size: 35px; }
 
-        .song-item {
-            border: 3px solid var(--black);
-            border-radius: 20px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 4px 4px 0px var(--black);
-            margin-bottom: 15px;
-            background: var(--card-bg);
-            cursor: pointer;
-            transition: 0.2s;
-        }
+        .song-item { border: 3px solid var(--black); border-radius: 20px; padding: 15px; display: flex; align-items: center; gap: 15px; box-shadow: 4px 4px 0px var(--black); margin-bottom: 15px; background: var(--card-bg); cursor: pointer; transition: 0.2s; }
 
-        .mini-player {
-            border: 3px solid var(--black);
-            border-radius: 20px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 6px 6px 0px var(--black);
-            margin-top: auto;
-            margin-bottom: 15px;
-            background: var(--card-bg);
-            cursor: pointer;
-        }
+        .mini-player { border: 3px solid var(--black); border-radius: 20px; padding: 15px; display: flex; align-items: center; gap: 15px; box-shadow: 6px 6px 0px var(--black); margin-top: auto; margin-bottom: 15px; background: var(--card-bg); cursor: pointer; }
 
         .player-thumb { width: 50px; height: 50px; background: #254252; border: 2px solid var(--black); border-radius: 12px; display: flex; justify-content: center; align-items: center; color: var(--accent); font-size: 20px; }
         
-        #full-player {
-            position: absolute;
-            inset: 0;
-            background: var(--bg);
-            z-index: 900;
-            display: flex;
-            flex-direction: column;
-            padding: 40px 30px;
-            transform: translateY(100%);
-            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-        }
+        #full-player { position: absolute; inset: 0; background: var(--bg); z-index: 900; display: flex; flex-direction: column; padding: 40px 30px; transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
         #full-player.active { transform: translateY(0); }
 
         .full-player-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .big-art { 
-            width: 100%; 
-            aspect-ratio: 1; 
-            border: 4px solid var(--black); 
-            border-radius: 30px; 
-            box-shadow: 10px 10px 0px var(--black);
-            display: flex; justify-content: center; align-items: center;
-            font-size: 100px;
-            background: var(--brand-yellow);
-            margin-bottom: 40px;
-        }
+        .big-art { width: 100%; aspect-ratio: 1; border: 4px solid var(--black); border-radius: 30px; box-shadow: 10px 10px 0px var(--black); display: flex; justify-content: center; align-items: center; font-size: 100px; background: var(--brand-yellow); margin-bottom: 40px; }
 
         .progress-area { width: 100%; margin: 30px 0; }
-        .progress-bar { 
-            width: 100%; 
-            height: 12px; 
-            background: rgba(0,0,0,0.1); 
-            border: 3px solid var(--black); 
-            border-radius: 15px; 
-            position: relative;
-            cursor: pointer;
-            overflow: hidden;
-        }
+        .progress-bar { width: 100%; height: 12px; background: rgba(0,0,0,0.1); border: 3px solid var(--black); border-radius: 15px; position: relative; cursor: pointer; overflow: hidden; }
         .progress-fill { width: 0%; height: 100%; background: var(--secondary); transition: width 0.1s linear; }
         .time-labels { display: flex; justify-content: space-between; font-weight: 800; font-size: 14px; margin-top: 8px; }
 
@@ -388,23 +266,8 @@
         .nav-item:active { transform: scale(0.9); }
         .nav-item.active { background: var(--accent); color: var(--black); border: 2px solid var(--black); box-shadow: 3px 3px 0px var(--black); }
         
-        .artist-no-img {
-            width: 50px; height: 50px; 
-            border-radius: 50%; 
-            border: 3px solid var(--black); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            font-size: 20px;
-        }
+        .artist-no-img { width: 50px; height: 50px; border-radius: 50%; border: 3px solid var(--black); display: flex; justify-content: center; align-items: center; font-size: 20px; }
 
-        /* Sezione Profilo */
-        #profile-section { display: none; }
-        .profile-card {
-            border: 4px solid var(--black); border-radius: 25px; padding: 25px;
-            background: var(--light-blue); box-shadow: 8px 8px 0px var(--black);
-            text-align: center; margin-top: 20px;
-        }
     </style>
 </head>
 <body>
@@ -414,19 +277,37 @@
         <span id="toast-message">Messaggio</span>
     </div>
 
-    <audio id="main-audio"></audio>
+    <audio id="main-audio" crossorigin="anonymous"></audio>
 
     <div class="app-shell">
         <div id="settings-panel">
             <div class="settings-header">
-                <h2 style="font-weight: 900;">SETTINGS</h2>
+                <h2 style="font-weight: 900;">SETTINGS & PROFILE</h2>
                 <div class="header-btn" onclick="toggleSettings(); playClick();" style="background: var(--pink);">
                     <i class="fa-solid fa-xmark"></i>
                 </div>
             </div>
 
+            <div class="profile-settings-card">
+                <div class="artist-no-img" style="margin: 0 auto 15px; width: 60px; height: 60px; background: var(--brand-yellow); font-size: 25px;">👤</div>
+                <h2 id="profile-name" style="font-weight: 900; display: flex; align-items: center; justify-content: center; font-size: 18px;">Utente</h2>
+                <p style="font-weight: 700; opacity: 0.6; margin-bottom: 15px; font-size: 12px;">Account Obsound Official</p>
+                <button class="btn-enter" onclick="logout()" style="background: var(--pink); color: black; font-size: 12px; padding: 8px;">LOGOUT</button>
+            </div>
+
+            <h3 style="font-weight: 900; margin: 10px 0 15px; font-size: 14px; opacity: 0.8;">🎨 TEMI ESCLUSIVI PRO</h3>
+            <div class="setting-item pro-locked" onclick="checkProClick()">
+                <span>STILE APP</span>
+                <select class="setting-select" id="theme-select" onchange="setTheme(this.value); playClick();">
+                    <option value="default">Standard Obsound</option>
+                    <option value="gold">Gold Edition</option>
+                    <option value="neon">Neon Night</option>
+                    <option value="deep">Deep Dark</option>
+                </select>
+            </div>
+
             <div class="setting-item" onclick="toggleDarkMode(); playClick();" style="cursor:pointer">
-                <span>TEMA SCURO</span>
+                <span>MODALITÀ NOTTE</span>
                 <i class="fa-solid fa-moon"></i>
             </div>
 
@@ -438,20 +319,32 @@
                 <i id="update-icon" class="fa-solid fa-rotate"></i>
             </div>
 
-            <h3 style="font-weight: 900; margin: 10px 0 15px; font-size: 14px; opacity: 0.8;">PERSONALIZZAZIONE AUDIO</h3>
+            <h3 style="font-weight: 900; margin: 10px 0 15px; font-size: 14px; opacity: 0.8;">ATTIVAZIONE PREMIUM</h3>
+            <div class="setting-item" style="flex-direction: column; gap: 10px; align-items: flex-start;">
+                <input type="text" id="premium-key" class="premium-input" placeholder="INSERISCI KEY">
+                <button id="activate-btn" class="btn-enter" onclick="checkPremiumKey(); playClick();" style="font-size: 14px; padding: 12px;">SBLOCCA ORA</button>
+                
+                <a href="mailto:ob.sound.official@gmail.com?subject=Richiesta%20Codice%20Premium%20Obsound" style="text-decoration: none; width: 100%;">
+                    <button class="btn-enter" onclick="playClick();" style="font-size: 12px; padding: 10px; background: var(--secondary); margin-top: 5px;">
+                        <i class="fa-solid fa-envelope"></i> RICHIEDI KEY AGLI SVILUPPATORI
+                    </button>
+                </a>
+            </div>
 
-            <div class="setting-item">
-                <span>EQUALIZZATORE</span>
-                <select class="setting-select" onchange="setEqualizer(this.value); playClick();">
-                    <option value="none">Normale</option>
+            <h3 style="font-weight: 900; margin: 10px 0 15px; font-size: 14px; opacity: 0.8;">🎛️ AUDIO LABS (PRO)</h3>
+
+            <div class="setting-item pro-locked" onclick="checkProClick()">
+                <span>EQUALIZZATORE PRO</span>
+                <select class="setting-select" id="eq-select" onchange="setEqualizer(this.value); playClick();">
+                    <option value="none">Standard</option>
                     <option value="bass">Bass Boost</option>
-                    <option value="pop">Pop</option>
                     <option value="rock">Rock</option>
-                    <option value="jazz">Jazz</option>
+                    <option value="pop">Pop</option>
+                    <option value="vocal">Vocal</option>
                 </select>
             </div>
 
-            <div class="setting-item">
+            <div class="setting-item pro-locked" onclick="checkProClick()">
                 <span>AUDIO SPAZIALE BETA / 8D</span>
                 <label class="switch">
                     <input type="checkbox" onchange="toggle8D(this.checked); playClick();">
@@ -459,7 +352,7 @@
                 </label>
             </div>
 
-            <div class="setting-item">
+            <div class="setting-item pro-locked" onclick="checkProClick()">
                 <span>QUALITÀ STREAMING</span>
                 <select class="setting-select" onchange="setQuality(this.value); playClick();">
                     <option value="low">Bassa</option>
@@ -480,7 +373,7 @@
                 </select>
             </div>
 
-            <div style="margin-top: auto; border: 3px solid var(--black); padding: 20px; border-radius: 20px; background: var(--brand-yellow);">
+            <div style="margin-top: 20px; border: 3px solid var(--black); padding: 20px; border-radius: 20px; background: var(--brand-yellow);">
                 <p style="font-weight: 900; font-size: 14px;">OBSOUND OFFICIAL</p>
                 <p style="font-size: 12px; font-weight: 700;">Designed for high-end audio experience.</p>
             </div>
@@ -491,8 +384,10 @@
                 <div style="font-size: 50px;">🎧</div>
                 <h1>Obsound</h1>
                 <p>Official Experience</p>
-                <input type="text" id="username" placeholder="Inserisci il tuo nome...">
-                <button class="btn-enter" onclick="login(); playClick();">ENTRA NELL'APP</button>
+                <input type="text" id="username" placeholder="Inserisci il tuo nome..." required>
+                <input type="email" id="user-email" placeholder="Inserisci la tua email..." required>
+                <input type="password" id="user-password" placeholder="Crea una password..." required>
+                <button id="login-btn" class="btn-enter" onclick="login(); playClick();">ENTRA NELL'APP</button>
             </div>
         </div>
 
@@ -584,12 +479,12 @@
                     <div class="cards-grid">
                         <div class="music-card searchable">
                             <div class="card-img" style="background: #ffccbc;">💿</div>
-                            <h4>In Lavorazione...</h4>
+                            <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">In Lavorazione...</h4>
                             <p style="font-size: 12px; opacity: 0.6;">0 Brani-2026</p>
                         </div>
                         <div class="music-card searchable">
                             <div class="card-img" style="background: #c5cae9;">🎹</div>
-                            <h4>Realta Alternata</h4>
+                            <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Realta Alternata</h4>
                             <p style="font-size: 12px; opacity: 0.6;">0 Brani-2025</p>
                         </div>
                     </div>
@@ -616,16 +511,6 @@
                 </div>
             </div>
 
-            <div id="profile-section">
-                <h2 style="font-weight: 900;">IL TUO PROFILO</h2>
-                <div class="profile-card">
-                    <div class="artist-no-img" style="margin: 0 auto 15px; width: 70px; height: 70px; background: var(--brand-yellow); font-size: 30px;">👤</div>
-                    <h2 id="profile-name" style="font-weight: 900; display: flex; align-items: center; justify-content: center;">Utente</h2>
-                    <p style="font-weight: 700; opacity: 0.6; margin-bottom: 20px;">Account Obsound Official</p>
-                    <button class="btn-enter" onclick="logout()" style="background: var(--pink); color: black;">LOGOUT</button>
-                </div>
-            </div>
-
             <div class="mini-player" id="global-player" onclick="openFullPlayer(); playClick();">
                 <div class="player-thumb" id="p-thumb"><i class="fa-solid fa-compact-disc"></i></div>
                 <div style="flex: 1;"><h4 id="p-title" style="font-size: 15px;">Obsound Play</h4><p id="p-artist" style="font-size: 13px; opacity: 0.6;">Scegli un brano</p></div>
@@ -635,140 +520,263 @@
 
         <nav class="nav-bar">
             <div class="nav-item active" onclick="switchMainView('home', this); playClick();"><i class="fa-solid fa-house"></i></div>
-            <div class="nav-item" onclick="playClick();"><i class="fa-solid fa-heart"></i></div>
-            <div class="nav-item" onclick="playClick();"><i class="fa-solid fa-fire"></i></div>
-            <div class="nav-item" onclick="switchMainView('profile', this); playClick();"><i class="fa-solid fa-user"></i></div>
+            <div class="nav-item" onclick="alert('Esplora: Prossimamente'); playClick();"><i class="fa-solid fa-compass"></i></div>
+            <div class="nav-item" onclick="alert('Preferiti: Prossimamente'); playClick();"><i class="fa-solid fa-heart"></i></div>
+            <div class="nav-item" onclick="alert('Trending: Prossimamente'); playClick();"><i class="fa-solid fa-fire"></i></div>
         </nav>
     </div>
 
     <script>
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let source = null;
+        let biquadFilter = null;
         let currentClickStyle = 'classic';
+        const AUTH_URL = "https://obsound-auth.oleksiimartinati07.workers.dev/";
+
+        function checkProClick() {
+            if(localStorage.getItem('obsound_pro') !== 'true') {
+                alert("Migliora il tuo ascolto con Obsound Pro. 🏆\nInserisci la tua Key personale per sbloccare i filtri audio.");
+            }
+        }
+
+        function initAudioContext() {
+            if (!source) {
+                const audio = document.getElementById('main-audio');
+                source = audioCtx.createMediaElementSource(audio);
+                biquadFilter = audioCtx.createBiquadFilter();
+                source.connect(biquadFilter);
+                biquadFilter.connect(audioCtx.destination);
+                console.log("Audio Engine Inizializzato con EQ.");
+            }
+        }
+
+        function setEqualizer(preset) {
+            initAudioContext();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            biquadFilter.gain.value = 0; // Reset
+
+            switch(preset) {
+                case 'bass':
+                    biquadFilter.type = "lowshelf";
+                    biquadFilter.frequency.value = 200;
+                    biquadFilter.gain.value = 15;
+                    break;
+                case 'rock':
+                    biquadFilter.type = "peaking";
+                    biquadFilter.frequency.value = 3000;
+                    biquadFilter.gain.value = 8;
+                    break;
+                case 'pop':
+                    biquadFilter.type = "peaking";
+                    biquadFilter.frequency.value = 1000;
+                    biquadFilter.gain.value = 5;
+                    break;
+                case 'vocal':
+                    biquadFilter.type = "peaking";
+                    biquadFilter.frequency.value = 2000;
+                    biquadFilter.gain.value = 10;
+                    break;
+                default:
+                    biquadFilter.type = "peaking";
+                    biquadFilter.gain.value = 0;
+            }
+        }
+
+        function setTheme(theme) {
+            document.body.classList.remove('theme-gold', 'theme-neon', 'theme-deep');
+            if (theme !== 'default') {
+                document.body.classList.add('theme-' + theme);
+            }
+            localStorage.setItem('obsound_theme', theme);
+            if(document.getElementById('theme-select')) document.getElementById('theme-select').value = theme;
+        }
+
+        async function checkPremiumKey() {
+            const isPro = localStorage.getItem('obsound_pro') === 'true';
+            const btn = document.getElementById('activate-btn');
+            const keyInput = document.getElementById('premium-key');
+
+            if (isPro) {
+                if (confirm("Sei sicuro/a di voler annullare il Premium? Il tuo profilo tornerà standard e le funzioni PRO verranno bloccate.")) {
+                    localStorage.removeItem('obsound_pro');
+                    document.body.classList.remove('is-pro');
+                    setTheme('default'); 
+                    keyInput.value = "";
+                    updatePremiumUI();
+                    const savedName = localStorage.getItem('obsound_username');
+                    applicaNome(savedName);
+                    alert("Premium annullato con successo. Profilo Standard ripristinato.");
+                }
+                return;
+            }
+
+            const keyValue = keyInput.value;
+            if(!keyValue) return alert("Inserisci una chiave!");
+
+            btn.innerText = "VERIFICA IN CORSO...";
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${AUTH_URL}?key=${keyValue}`);
+                const data = await response.json();
+
+                // Verifica sia il vecchio formato "status" che il nuovo "valid"
+                if (data.status === "success" || data.valid === true) {
+                    localStorage.setItem('obsound_pro', 'true');
+                    document.body.classList.add('is-pro');
+                    updatePremiumUI();
+                    alert("CONGRATULAZIONI! Sei ora un membro PRO! 🏆\nTemi ed Equalizzatore sbloccati.");
+                    const savedName = localStorage.getItem('obsound_username');
+                    applicaNome(savedName);
+                } else {
+                    alert("❌ CHIAVE NON VALIDA\nControlla il codice o richiedine uno nuovo.");
+                }
+            } catch (error) {
+                console.error("Errore di connessione:", error);
+                alert("⚠️ ERRORE DI CONNESSIONE\nImpossibile raggiungere il server di autenticazione.");
+            } finally {
+                btn.disabled = false;
+                updatePremiumUI();
+            }
+        }
+
+        function updatePremiumUI() {
+            const btn = document.getElementById('activate-btn');
+            const isPro = localStorage.getItem('obsound_pro') === 'true';
+            
+            if (isPro) {
+                btn.innerText = "ANNULLA PREMIUM";
+                btn.style.background = "var(--pink)";
+                btn.style.color = "black";
+            } else {
+                btn.innerText = "SBLOCCA ORA";
+                btn.style.background = "var(--black)";
+                btn.style.color = "var(--bg)";
+            }
+        }
+
+        function checkProStatus() { if(localStorage.getItem('obsound_pro') === 'true') { document.body.classList.add('is-pro'); } }
 
         function playClick() {
             if (audioCtx.state === 'suspended') audioCtx.resume();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            
-            if (currentClickStyle === 'classic') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
-            } else if (currentClickStyle === 'deep') {
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(200, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 0.15);
-            } else if (currentClickStyle === 'tech') {
-                osc.type = 'square';
-                osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.05);
-            } else if (currentClickStyle === 'pop') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(1500, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.08);
-            }
-
+            if (currentClickStyle === 'classic') { osc.type = 'sine'; osc.frequency.setValueAtTime(800, audioCtx.currentTime); }
+            else if (currentClickStyle === 'deep') { osc.type = 'triangle'; osc.frequency.setValueAtTime(200, audioCtx.currentTime); }
+            else if (currentClickStyle === 'tech') { osc.type = 'square'; osc.frequency.setValueAtTime(1200, audioCtx.currentTime); }
+            else if (currentClickStyle === 'pop') { osc.type = 'sine'; osc.frequency.setValueAtTime(1500, audioCtx.currentTime); }
             gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.1);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
         }
 
-        function setClickSound(val) {
-            currentClickStyle = val;
-            localStorage.setItem('obsound_click_style', val);
-        }
-
-        function setEqualizer(val) { console.log("EQ impostato su: " + val); }
-        function toggle8D(enabled) { console.log("Audio 8D: " + (enabled ? "ATTIVO" : "DISATTIVO")); }
-        function setQuality(val) { console.log("Qualità impostata su: " + val); }
+        function setClickSound(val) { currentClickStyle = val; localStorage.setItem('obsound_click_style', val); }
+        function toggle8D(enabled) { console.log("8D: " + enabled); }
+        function setQuality(val) { console.log("Qualità: " + val); }
 
         function showWelcomeToast(name) {
             const toast = document.getElementById('welcome-toast');
             const msg = document.getElementById('toast-message');
-            const lastChar = name.trim().toLowerCase().slice(-1);
-            const greeting = (lastChar === 'a' || lastChar === 'e') ? "Bentornata" : "Bentornato";
-            msg.innerText = `${greeting} nell'app, ${name}!`;
+            msg.innerText = `Benvenuto nell'app, ${name}!`;
             toast.classList.add('show');
             setTimeout(() => { toast.classList.remove('show'); }, 3500);
         }
 
-        const quotes = [
-            { text: "La musica può cambiare il mondo perché può cambiare le persone.", author: "Bono" },
-            { text: "Dove le parole finiscono, inizia la musica.", author: "Heine" },
-            { text: "Senza musica, la vita sarebbe un errore.", author: "Nietzsche" }
-        ];
-
-        function setDailyQuote() {
-            const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-            const quoteIndex = dayOfYear % quotes.length;
-            document.getElementById('quote-text').innerText = `"${quotes[quoteIndex].text}"`;
-            document.getElementById('quote-author').innerText = quotes[quoteIndex].author;
-        }
-
         window.onload = function() {
-            setDailyQuote();
-            const savedClick = localStorage.getItem('obsound_click_style');
-            if (savedClick) {
-                currentClickStyle = savedClick;
-                if(document.getElementById('click-sound-select')) document.getElementById('click-sound-select').value = savedClick;
-            }
+            checkProStatus();
+            updatePremiumUI();
             const savedName = localStorage.getItem('obsound_username');
             if (savedName) {
                 applicaNome(savedName);
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('login-screen').classList.add('login-hidden');
-                setTimeout(() => showWelcomeToast(savedName), 1000);
             }
+            const savedClick = localStorage.getItem('obsound_click_style');
+            if (savedClick) {
+                currentClickStyle = savedClick;
+                if(document.getElementById('click-sound-select')) document.getElementById('click-sound-select').value = savedClick;
+            }
+            const savedTheme = localStorage.getItem('obsound_theme');
+            if (savedTheme) setTheme(savedTheme);
         };
 
-        function login() {
+        /* FUNZIONE LOGIN AGGIORNATA CON CLOUDFLARE KV */
+        async function login() {
             const name = document.getElementById('username').value;
-            if(name === "") return alert("Metti un nome!");
-            localStorage.setItem('obsound_username', name);
-            applicaNome(name);
-            document.getElementById('login-screen').classList.add('login-hidden');
-            setTimeout(() => showWelcomeToast(name), 800);
+            const email = document.getElementById('user-email').value;
+            const pass = document.getElementById('user-password').value;
+            const loginBtn = document.getElementById('login-btn');
+            
+            if(name === "" || email === "" || pass === "") {
+                return alert("Tutti i campi (Nome, Email, Password) sono obbligatori per procedere!");
+            }
+
+            loginBtn.innerText = "SINCRONIZZAZIONE...";
+            loginBtn.disabled = true;
+
+            const url = `${AUTH_URL}?action=saveUser&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(pass)}&key=none`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.status === "saved") {
+                    localStorage.setItem('obsound_username', name);
+                    localStorage.setItem('obsound_email', email);
+                    
+                    applicaNome(name);
+                    document.getElementById('login-screen').classList.add('login-hidden');
+                    setTimeout(() => {
+                        document.getElementById('login-screen').style.display = 'none';
+                        showWelcomeToast(name);
+                    }, 800);
+                } else {
+                    alert("Errore nel salvataggio. Riprova.");
+                }
+            } catch (error) {
+                console.error("Errore:", error);
+                alert("⚠️ Errore di connessione al database Cloudflare.");
+                // Fallback offline se necessario
+                localStorage.setItem('obsound_username', name);
+                applicaNome(name);
+                document.getElementById('login-screen').classList.add('login-hidden');
+            } finally {
+                loginBtn.innerText = "ENTRA NELL'APP";
+                loginBtn.disabled = false;
+            }
         }
 
         function applicaNome(name) {
-            const badgeHtml = `<span class="user-badge">PRO</span>`;
+            const isPro = localStorage.getItem('obsound_pro') === 'true';
+            const badgeHtml = isPro ? `<span class="user-badge">PRO</span>` : "";
             document.getElementById('welcome-text').innerHTML = "Ciao, " + name + "!" + badgeHtml;
             document.getElementById('profile-name').innerHTML = name + badgeHtml;
         }
 
-        function logout() {
-            if(confirm("Vuoi davvero uscire?")) {
-                localStorage.removeItem('obsound_username');
-                location.reload();
-            }
-        }
+        function logout() { if(confirm("Vuoi uscire?")) { localStorage.clear(); location.reload(); } }
 
         function instantSearch() {
             const query = document.getElementById('search-input').value.toLowerCase();
-            const items = document.querySelectorAll('.searchable');
-            items.forEach(item => {
-                const text = item.innerText.toLowerCase();
-                item.style.display = text.includes(query) ? "" : "none";
+            document.querySelectorAll('.searchable').forEach(item => {
+                item.style.display = item.innerText.toLowerCase().includes(query) ? "" : "none";
             });
         }
 
-        function showNews() {
-            document.getElementById('news-badge').style.display = 'none';
-            alert("Novità in Impostazioni! 🎧 Abbiamo aggiunto la Personalizzazione Audio!");
+       function showNews() {
+            alert("🚀 NOVITÀ OBSOUND:\n\n" +
+                "🎛️ AUDIO LABS: Equalizzatore Pro con preset.\n" +
+                "👤 PROFILO: Spostato nei Settings per una Home più pulita.\n" +
+                "🎨 TEMI PRO: Sbloccati i nuovi stili Gold, Neon e Deep.");
         }
 
         const audio = document.getElementById('main-audio');
         const playBtn = document.getElementById('play-status-icon');
         const fullPlayBtn = document.getElementById('full-play-icon');
-        const playerThumb = document.getElementById('p-thumb');
         const progressFill = document.getElementById('progress-fill');
-        const fullPlayer = document.getElementById('full-player');
-        const settingsPanel = document.getElementById('settings-panel');
 
-        function toggleSettings() { settingsPanel.classList.toggle('open'); }
+        function toggleSettings() { document.getElementById('settings-panel').classList.toggle('open'); }
         function toggleDarkMode() { document.body.classList.toggle('dark-mode'); }
 
         function showTab(tabId, el) {
@@ -781,27 +789,23 @@
         function switchMainView(view, el) {
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
-            if(view === 'home') {
-                document.getElementById('home-section').style.display = 'block';
-                document.getElementById('profile-section').style.display = 'none';
-            } else {
-                document.getElementById('home-section').style.display = 'none';
-                document.getElementById('profile-section').style.display = 'block';
-            }
+            document.getElementById('home-section').style.display = view === 'home' ? 'block' : 'none';
         }
 
-        function openFullPlayer() { fullPlayer.classList.add('active'); }
-        function closeFullPlayer() { fullPlayer.classList.remove('active'); }
+        function openFullPlayer() { document.getElementById('full-player').classList.add('active'); }
+        function closeFullPlayer() { document.getElementById('full-player').classList.remove('active'); }
 
         function playInternal(title, artist, emoji, link) {
             document.getElementById('p-title').innerText = title;
             document.getElementById('p-artist').innerText = artist;
-            playerThumb.innerHTML = emoji;
+            document.getElementById('p-thumb').innerHTML = emoji;
             document.getElementById('full-p-title').innerText = title;
             document.getElementById('full-p-artist').innerText = artist;
             document.getElementById('full-big-art').innerHTML = emoji;
-            audio.src = link; audio.play();
+            audio.src = link;
+            audio.play();
             updatePlayIcons(true);
+            initAudioContext(); 
         }
 
         function togglePlay() {
@@ -818,8 +822,7 @@
 
         audio.ontimeupdate = () => {
             if (!audio.duration) return;
-            const pct = (audio.currentTime / audio.duration) * 100;
-            progressFill.style.width = pct + "%";
+            progressFill.style.width = (audio.currentTime / audio.duration) * 100 + "%";
             document.getElementById('current-time').innerText = formatTime(audio.currentTime);
             document.getElementById('total-duration').innerText = formatTime(audio.duration);
         };
@@ -835,7 +838,7 @@
             return m + ":" + (s < 10 ? "0" + s : s);
         }
 
-        function checkAppUpdate() { alert("App Già Aggiornata!!"); }
+        function checkAppUpdate() { alert("App Aggiornata!"); }
     </script>
 </body>
 </html>
